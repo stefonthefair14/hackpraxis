@@ -23,7 +23,7 @@ It runs entirely on your machine at `http://127.0.0.1:7337`.
 ## Quick start
 
 ```bash
-git clone https://github.com/<you>/hackpraxis.git
+git clone https://github.com/stefonthefair14/hackpraxis.git
 chmod +x hackpraxis/setup.sh    # make the installer executable
 ./hackpraxis/setup.sh           # moves the folder to /opt/hackpraxis, installs a venv + the `hackpraxis` command
 hackpraxis                      # launches and opens http://127.0.0.1:7337
