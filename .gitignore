@@ -1,0 +1,22 @@
+# HackPraxis runtime data (lives outside the repo once installed; this covers
+# the source-checkout fallback dir)
+.hackpraxis-data/
+runs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

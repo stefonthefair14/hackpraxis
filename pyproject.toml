@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hackpraxis"
+version = "2.0.0"
+description = "A learning-first console for authorized web application testing."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Stephen Fair" }]
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.29",
+  "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+hackpraxis = "hackpraxis.__main__:main"
+
+[tool.setuptools]
+packages = ["hackpraxis", "hackpraxis.modules"]
+
+[tool.setuptools.package-data]
+hackpraxis = ["static/*", "content/*", "data/wordlists/*"]
