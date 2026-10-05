@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HackPraxis</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div id="app">
+  <!-- Top banner -->
+  <header class="topbar">
+    <button class="brand" id="brand-home" title="Project & scope">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="16" cy="16" r="9"/>
+          <ellipse cx="16" cy="16" rx="4" ry="9"/>
+          <path d="M7.1 16h17.8"/>
+          <path d="M8.3 11.4h15.4M8.3 20.6h15.4"/>
+          <g stroke-width="1.2">
+            <path d="M16 7V4.2"/><path d="M16 25v2.8"/><path d="M7 16H4.2"/><path d="M25 16h2.8"/>
+            <path d="M9.6 9.6 7.6 7.6"/><path d="M22.4 22.4l2 2"/><path d="M22.4 9.6l2-2"/><path d="M9.6 22.4l-2 2"/>
+          </g>
+          <g fill="currentColor" stroke="none">
+            <circle cx="16" cy="3.4" r=".95"/><circle cx="16" cy="28.6" r=".95"/>
+            <circle cx="3.4" cy="16" r=".95"/><circle cx="28.6" cy="16" r=".95"/>
+            <circle cx="6.9" cy="6.9" r=".85"/><circle cx="25" cy="25" r=".85"/>
+            <circle cx="25" cy="6.9" r=".85"/><circle cx="6.9" cy="25" r=".85"/>
+          </g>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name"><span class="bn-a">Hack</span><span class="bn-b">Praxis</span><span class="brand-ver" id="brand-ver"></span></span>
+        <span class="brand-tag">The only way to learn is to try</span>
+      </span>
+    </button>
+
+    <div class="top-actions">
+      <div class="tools-mini" id="tools-list"></div>
+      <label class="dd-wrap">
+        <select class="project-dd" id="project-dd" aria-label="Active project"></select>
+      </label>
+      <button class="btn" id="btn-project-scope">Project &amp; scope</button>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="main" id="main"></main>
+</div>
+
+<!-- Project modal -->
+<div class="modal-backdrop" id="project-modal" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="project-modal-title">New project</h2>
+      <button class="icon-btn" id="project-modal-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label class="field">
+        <span class="field-label">Project name</span>
+        <input type="text" id="pm-name" placeholder="Acme Corp bug bounty">
+      </label>
+      <div class="scope-grid">
+        <label class="field">
+          <span class="field-label in">In scope <span class="hint">one host per line · *.example.com for subdomains</span></span>
+          <textarea id="pm-inscope" rows="6" placeholder="*.example.com&#10;example.com&#10;api.example.io"></textarea>
+        </label>
+        <label class="field">
+          <span class="field-label out">Out of scope <span class="hint">these always win</span></span>
+          <textarea id="pm-outscope" rows="6" placeholder="blog.example.com&#10;support.example.com"></textarea>
+        </label>
+      </div>
+      <label class="field">
+        <span class="field-label">Notes</span>
+        <textarea id="pm-notes" rows="2" placeholder="Program URL, rate limits, special rules…"></textarea>
+      </label>
+      <div class="existing-projects" id="existing-projects"></div>
+    </div>
+    <div class="modal-foot">
+      <span class="modal-foot-note">Saved to <code>projects/</code> on your machine.</span>
+      <button class="btn btn-primary" id="pm-save">Save project</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

