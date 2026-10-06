@@ -9,5 +9,5 @@ teaches the technique while you work an authorized target.
 Authorized testing only. Every action is gated by the active project's scope.
 """
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 __port__ = 7337
