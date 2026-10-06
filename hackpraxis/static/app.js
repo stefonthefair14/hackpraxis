@@ -293,6 +293,7 @@ async function renderWorkspace(mod) {
   $('#btn-preview').onclick = () => doPreview(mod);
   $('#btn-run').onclick = () => doRun(mod);
   wireScopeSelects(body);
+  wireUrlPicks(body);
 
   // remember field values across tab switches; refresh the iframe on target change
   const saveForm = () => { S.formCache[mod.id] = collectParams(mod); };
@@ -423,18 +424,39 @@ function fieldWidget(f) {
   if (f.type === 'url_combo') {
     const urls = reachableUrls();
     const listId = 'ul-' + f.name;
-    const opts = urls.map(u => `<option value="${esc(u.url)}">${esc(u.label || '')}</option>`).join('');
+    const dataOpts = urls.map(u => `<option value="${esc(u.url)}">${esc(u.label || '')}</option>`).join('');
+    const selOpts = urls.map(u =>
+      `<option value="${esc(u.url)}">${esc(u.url)}${u.label ? `  (${esc(u.label)})` : ''}</option>`).join('');
     const val = fcGet(f.name, '');
+    const picker = urls.length
+      ? `<select class="url-pick" style="margin-bottom:8px" data-urlpick="${f.name}">
+           <option value="">&#8595; pick a reachable URL (${urls.length})</option>${selOpts}</select>`
+      : `<div style="font-size:11.5px;color:var(--faint);margin-bottom:8px">No reachable URLs yet — run Step 1 or 2, or type one below.</div>`;
     return `<label class="field">${labelSpan}
+      ${picker}
       <input type="text" class="url-combo" data-field="${f.name}" list="${listId}" autocomplete="off"
         placeholder="${esc(f.placeholder || 'https://…')}" value="${esc(val)}">
-      <datalist id="${listId}">${opts}</datalist></label>`;
+      <datalist id="${listId}">${dataOpts}</datalist></label>`;
   }
   const type = f.type === 'number' ? 'number' : 'text';
   const val = fcGet(f.name, f.default != null ? f.default : '');
   return `<label class="field">${labelSpan}
     <input type="${type}" data-field="${f.name}" placeholder="${esc(f.placeholder || '')}" value="${esc(val)}">
   </label>`;
+}
+
+function wireUrlPicks(root) {
+  $$('[data-urlpick]', root).forEach(sel => {
+    sel.onchange = () => {
+      if (!sel.value) return;
+      const input = $(`input[data-field="${sel.dataset.urlpick}"]`, root);
+      if (input) {
+        input.value = sel.value;
+        input.dispatchEvent(new Event('change', { bubbles: true })); // updates cache + iframe
+        input.focus();
+      }
+    };
+  });
 }
 
 function wireScopeSelects(root) {
@@ -516,7 +538,7 @@ async function doRun(mod) {
   if (!S.active) { toast('Select a project first.', 'err'); return; }
   const btn = $('#btn-run'); const results = $('#results-area');
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Running…';
-  results.innerHTML = `<div class="panel"><div class="panel-body"><div class="empty-note"><span class="spinner"></span> executing. Large matrices can take a few seconds…</div></div></div>`;
+  results.innerHTML = `<div class="panel"><div class="panel-body"><div class="empty-note"><span class="spinner"></span> executing. Large matrices can take a few seconds…<br><br><b style="color:var(--green-bright)">Stay on this tab until it finishes — the command does not run in the background.</b></div></div></div>`;
   try {
     const data = await jpost('/api/run', {
       module: mod.id, engine: S.engine[mod.id], params: collectParams(mod), project_slug: S.active,
